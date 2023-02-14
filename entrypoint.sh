@@ -1,6 +1,9 @@
 #!/bin/sh
 set -eu
 
+CONFIGMAP_NAME="${CONFIGMAP_NAME:-external-dns-dynamic-ip}"
+DEPLOYMENT_NAME="${DEPLOYMENT_NAME:-external-dns}"
+
 _get_ip() (
   set -e
   ip="$(dig +short txt ch whoami.cloudflare @1.1.1.1)"
