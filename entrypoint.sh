@@ -17,8 +17,11 @@ _get_configmap_ip() (
 ip="$(_get_ip)"
 configmap_ip="$(_get_configmap_ip)"
 
-if [[ -n "$ip" && "$ip" != "$configmap_ip" ]]; then
-  echo "Updating IP to $ip" >&2
+if [[ -z "$ip" ]]; then
+  echo "Failed to get public IP: Empty response"
+  exit 1
+elif [[ "$ip" != "$configmap_ip" ]]; then
+  echo "Patching configmap/$CONFIGMAP_NAME with new IP: $configmap_ip to $ip" >&2
 
   kubectl create configmap "$CONFIGMAP_NAME" \
     --dry-run=client --output=yaml \
@@ -26,4 +29,6 @@ if [[ -n "$ip" && "$ip" != "$configmap_ip" ]]; then
     | kubectl apply --server-side --filename=-
 
   kubectl rollout restart deployment "$DEPLOYMENT_NAME"
+else
+  echo "IP unchanged: $ip"
 fi
