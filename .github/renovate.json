@@ -1,0 +1,18 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>gabe565/renovate-config"
+  ],
+  "automerge": true,
+  "regexManagers": [
+    {
+      "fileMatch": ["Dockerfile", "^\\.github/workflows/"],
+      "matchStrings": [
+        " +KUBERNETES_VERSION: +(?<currentValue>.+)",
+        "ARG +KUBERNETES_VERSION=\"(?<currentValue>.+)\""
+      ],
+      "depNameTemplate": "kubernetes/kubernetes",
+      "datasourceTemplate": "github-releases"
+    }
+  ]
+}
