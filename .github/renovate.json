@@ -4,6 +4,9 @@
     "local>gabe565/renovate-config"
   ],
   "automerge": true,
+  "kubernetes": {
+    "fileMatch": ["^kustomization/.*\\.yaml$"]
+  },
   "regexManagers": [
     {
       "fileMatch": ["Dockerfile", "^\\.github/workflows/"],
