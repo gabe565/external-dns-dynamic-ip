@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dynamic-ip
+secrets:
+  - name: external-dns-dynamic-ip-sa-token
+---
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: external-dns-dynamic-ip-sa-token
+  annotations:
+    kubernetes.io/service-account.name: dynamic-ip
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: external-dns-dynamic-ip
+spec:
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 30
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: dynamic-ip
+          automountServiceAccountToken: true
+          dnsPolicy: ClusterFirst
+          enableServiceLinks: false
+          restartPolicy: Never
+          containers:
+            - name: external-dns-dynamic-ip
+              image: ghcr.io/gabe565/external-dns-dynamic-ip:1.27.1
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: DEPLOYMENT_NAME
+                  value: external-dns
+                - name: CONFIGMAP_NAME
+                  value: external-dns-dynamic-ip
