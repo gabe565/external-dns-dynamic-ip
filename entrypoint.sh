@@ -2,6 +2,7 @@
 set -eu
 
 CONFIGMAP_NAME="${CONFIGMAP_NAME:-external-dns-dynamic-ip}"
+CONFIGMAP_KEY="${CONFIGMAP_KEY:-ip}"
 DEPLOYMENT_NAME="${DEPLOYMENT_NAME:-external-dns}"
 HANDLERS="${HANDLERS:-cloudflare_tls opendns_tls cloudflare opendns ipinfo}"
 DEBUG="${DEBUG:-false}"
@@ -55,7 +56,7 @@ if [[ "$ip" != "$configmap_ip" ]]; then
 
   kubectl create configmap "$CONFIGMAP_NAME" \
     --dry-run=client --output=yaml \
-    --from-literal=ip="$ip" \
+    --from-literal="$CONFIGMAP_KEY=$ip" \
     | kubectl apply --server-side --filename=-
 
   echo "Restarting deployment/$DEPLOYMENT_NAME"

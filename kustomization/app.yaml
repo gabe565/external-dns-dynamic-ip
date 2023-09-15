@@ -41,6 +41,8 @@ spec:
                   value: external-dns
                 - name: CONFIGMAP_NAME
                   value: external-dns-dynamic-ip
+                - name: CONFIGMAP_KEY
+                  value: ip
                 - name: HANDLERS
                   value: cloudflare_tls opendns_tls cloudflare opendns ipinfo
                 - name: DEBUG
