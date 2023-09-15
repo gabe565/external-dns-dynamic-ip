@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 set -eu
 
 CONFIGMAP_NAME="${CONFIGMAP_NAME:-external-dns-dynamic-ip}"
