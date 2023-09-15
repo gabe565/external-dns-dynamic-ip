@@ -11,7 +11,7 @@ _get_ip() (
 )
 
 _get_configmap_ip() (
-  kubectl get configmap "$CONFIGMAP_NAME" -o jsonpath='{.data.ip}' || true
+  kubectl get configmap "$CONFIGMAP_NAME" --output=jsonpath='{.data.ip}' || true
 )
 
 ip="$(_get_ip)"
