@@ -42,4 +42,4 @@ spec:
                 - name: CONFIGMAP_NAME
                   value: external-dns-dynamic-ip
                 - name: HANDLERS
-                  value: cloudflare opendns ipinfo
+                  value: cloudflare_tls opendns_tls cloudflare opendns ipinfo

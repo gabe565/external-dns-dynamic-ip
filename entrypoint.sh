@@ -3,15 +3,24 @@ set -eu
 
 CONFIGMAP_NAME="${CONFIGMAP_NAME:-external-dns-dynamic-ip}"
 DEPLOYMENT_NAME="${DEPLOYMENT_NAME:-external-dns}"
-HANDLERS="${HANDLERS:-cloudflare opendns ipinfo}"
+HANDLERS="${HANDLERS:-cloudflare_tls opendns_tls cloudflare opendns ipinfo}"
 
-_get_ip_cloudflare() (
-  ip="$(dig +short txt ch whoami.cloudflare @1.1.1.1)"
+_get_ip_cloudflare_tls() (
+  ip="$(doggo --short --type=TXT --class=CH @tls://1.1.1.1 whoami.cloudflare)"
   echo "${ip//\"/}"
 )
 
+_get_ip_cloudflare() (
+  ip="$(doggo --short --type=TXT --class=CH @1.1.1.1 whoami.cloudflare)"
+  echo "${ip//\"/}"
+)
+
+_get_ip_opendns_tls() (
+  doggo --short @tls://dns.opendns.com myip.opendns.com
+)
+
 _get_ip_opendns() (
-  dig +short myip.opendns.com @resolver1.opendns.com
+  doggo --short @resolver1.opendns.com myip.opendns.com
 )
 
 _get_ip_ipinfo() (

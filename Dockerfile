@@ -1,4 +1,5 @@
 #syntax=docker/dockerfile:1.4
+
 FROM alpine:3.18
 
 ARG USERNAME=external-dns
@@ -15,11 +16,11 @@ RUN <<EOT
   printf '%s  /usr/local/bin/kubectl' "$(wget -O- "https://dl.k8s.io/$KUBERNETES_VERSION/bin/linux/$TARGETARCH/kubectl.sha256")" \
     | sha256sum -c
 
-  apk add --no-cache bind-tools
-
   addgroup -g "$GID" "$USERNAME"
   adduser -S -u "$UID" -G "$USERNAME" "$USERNAME"
 EOT
+
+COPY --from=ghcr.io/mr-karan/doggo:v0.5.7 /usr/bin/doggo /usr/local/bin/doggo
 
 USER $UID
 
