@@ -4,6 +4,11 @@ set -eu
 CONFIGMAP_NAME="${CONFIGMAP_NAME:-external-dns-dynamic-ip}"
 DEPLOYMENT_NAME="${DEPLOYMENT_NAME:-external-dns}"
 HANDLERS="${HANDLERS:-cloudflare_tls opendns_tls cloudflare opendns ipinfo}"
+DEBUG="${DEBUG:-false}"
+
+if [[ "$DEBUG" = "true" ]]; then
+  set -x
+fi
 
 _get_ip_cloudflare_tls() (
   ip="$(doggo --short --type=TXT --class=CH @tls://1.1.1.1 whoami.cloudflare)"

@@ -43,3 +43,5 @@ spec:
                   value: external-dns-dynamic-ip
                 - name: HANDLERS
                   value: cloudflare_tls opendns_tls cloudflare opendns ipinfo
+                - name: DEBUG
+                  value: "false"
