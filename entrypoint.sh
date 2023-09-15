@@ -28,6 +28,7 @@ elif [[ "$ip" != "$configmap_ip" ]]; then
     --from-literal=ip="$ip" \
     | kubectl apply --server-side --filename=-
 
+  echo "Restarting deployment/$DEPLOYMENT_NAME"
   kubectl rollout restart deployment "$DEPLOYMENT_NAME"
 else
   echo "IP unchanged: $ip"
