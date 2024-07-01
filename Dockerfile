@@ -20,7 +20,7 @@ RUN <<EOT
   adduser -S -u "$UID" -G "$USERNAME" "$USERNAME"
 EOT
 
-COPY --from=ghcr.io/mr-karan/doggo:v0.6.3 /usr/bin/doggo /usr/local/bin/doggo
+COPY --from=ghcr.io/mr-karan/doggo:v1.0.0 /usr/bin/doggo /usr/local/bin/doggo
 
 USER $UID
 
