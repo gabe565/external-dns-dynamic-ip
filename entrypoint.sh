@@ -59,8 +59,10 @@ if [[ "$ip" != "$configmap_ip" ]]; then
     --from-literal="$CONFIGMAP_KEY=$ip" \
     | kubectl apply --server-side --force-conflicts --filename=-
 
-  echo "Restarting deployment/$DEPLOYMENT_NAME"
-  kubectl rollout restart deployment "$DEPLOYMENT_NAME"
+  if [[ -n "${DEPLOYMENT_NAME:-}" ]]; then
+    echo "Restarting deployment/$DEPLOYMENT_NAME"
+    kubectl rollout restart deployment "$DEPLOYMENT_NAME"
+  fi
 else
   echo "IP unchanged: $ip"
 fi
