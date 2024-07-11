@@ -51,7 +51,7 @@ fi
 
 configmap_ip="$(_get_configmap_ip || true)"
 if [[ "$ip" != "$configmap_ip" ]]; then
-  echo "Patching configmap/$CONFIGMAP_NAME with new IP: $configmap_ip to $ip" >&2
+  printf 'Patching configmap/%s with new IP: "%s" to "%s"\n' "$CONFIGMAP_NAME" "$configmap_ip" "$ip" >&2
 
   kubectl create configmap "$CONFIGMAP_NAME" \
     --dry-run=client --output=yaml \
