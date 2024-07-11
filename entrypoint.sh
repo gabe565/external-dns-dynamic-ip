@@ -34,7 +34,7 @@ _get_ip_ipinfo() (
 )
 
 _get_configmap_ip() (
-  kubectl get configmap "$CONFIGMAP_NAME" --output=jsonpath='{.data.ip}' || true
+  kubectl get configmap "$CONFIGMAP_NAME" --output=jsonpath='{.data.ip}'
 )
 
 for handler in $HANDLERS; do
@@ -49,7 +49,7 @@ if [[ -z "$ip" ]]; then
   exit 1
 fi
 
-configmap_ip="$(_get_configmap_ip)"
+configmap_ip="$(_get_configmap_ip || true)"
 if [[ "$ip" != "$configmap_ip" ]]; then
   echo "Patching configmap/$CONFIGMAP_NAME with new IP: $configmap_ip to $ip" >&2
 
