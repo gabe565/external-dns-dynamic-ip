@@ -1,6 +1,6 @@
 #syntax=docker/dockerfile:1.8
 
-FROM alpine:3.20
+FROM alpine:3.20.1
 
 ARG USERNAME=external-dns
 ARG UID=1000
