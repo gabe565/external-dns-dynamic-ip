@@ -38,7 +38,7 @@ _get_configmap_ip() (
 )
 
 for handler in $HANDLERS; do
-    if ip="$("_get_ip_$handler")"; then
+    if ip="$("_get_ip_$handler")" && [[ -n "$ip" ]]; then
         echo "Got IP from handler: $handler"
         break
     fi
