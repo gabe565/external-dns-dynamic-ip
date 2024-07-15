@@ -38,7 +38,7 @@ _get_ip_opendns() (
 )
 
 _get_ip_ipinfo() (
-  wget -O- -q https://ipinfo.io/json | jq -re '.ip'
+  wget -O- -q -T5 https://ipinfo.io/json | jq -re '.ip'
 )
 
 _get_configmap_ip() (
