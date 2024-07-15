@@ -12,7 +12,7 @@ if [[ "$DEBUG" = "true" ]]; then
 fi
 
 _parse_doggo_response() (
-  response="$(cat)"
+  response="$(grep -v '^time=')"
   error="$(echo "$response" | jq -r '.error // ""')"
   if [[ -n "$error" ]]; then
     echo "$error" >&2
