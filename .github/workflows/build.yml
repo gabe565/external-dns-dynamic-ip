@@ -19,9 +19,9 @@ jobs:
           images: |
             ghcr.io/gabe565/external-dns-dynamic-ip
           tags: |
-            type=raw,priority=1000,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=semver,pattern={{version}},value=${{ env.KUBERNETES_VERSION }},enable=${{ github.ref == 'refs/heads/main' }}
-            type=semver,pattern={{major}}.{{minor}},value=${{ env.KUBERNETES_VERSION }},enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,priority=1000,value=latest,enable=${{ github.ref_name == 'main' }}
+            type=semver,pattern={{version}},value=${{ env.KUBERNETES_VERSION }},enable=${{ github.ref_name == 'main' }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ env.KUBERNETES_VERSION }},enable=${{ github.ref_name == 'main' }}
             type=ref,event=branch
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
