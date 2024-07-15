@@ -10,6 +10,8 @@ ARG TARGETARCH
 RUN <<EOT
   set -eux
 
+  apk add --no-cache jq
+
   wget -P /usr/local/bin "https://dl.k8s.io/release/$KUBERNETES_VERSION/bin/linux/$TARGETARCH/kubectl"
   chmod +x /usr/local/bin/kubectl
 

@@ -11,26 +11,34 @@ if [[ "$DEBUG" = "true" ]]; then
   set -x
 fi
 
+_parse_doggo_response() (
+  response="$(cat)"
+  error="$(echo "$response" | jq -r '.error // ""')"
+  if [[ -n "$error" ]]; then
+    echo "$error" >&2
+    return 1
+  fi
+  echo "$response" | jq -re ".responses[0].answers[0].address | ${1:-.}"
+)
+
 _get_ip_cloudflare_tls() (
-  ip="$(doggo --short --type=TXT --class=CH @tls://1.1.1.1 whoami.cloudflare)"
-  echo "${ip//\"/}"
+  doggo --json --type=TXT --class=CH @tls://1.1.1.1 whoami.cloudflare | _parse_doggo_response fromjson
 )
 
 _get_ip_cloudflare() (
-  ip="$(doggo --short --type=TXT --class=CH @1.1.1.1 whoami.cloudflare)"
-  echo "${ip//\"/}"
+  doggo --json --type=TXT --class=CH @1.1.1.1 whoami.cloudflare | _parse_doggo_response fromjson
 )
 
 _get_ip_opendns_tls() (
-  doggo --short @tls://dns.opendns.com myip.opendns.com
+  doggo --json @tls://dns.opendns.com myip.opendns.com | _parse_doggo_response
 )
 
 _get_ip_opendns() (
-  doggo --short @resolver1.opendns.com myip.opendns.com
+  doggo --json @resolver1.opendns.com myip.opendns.com | _parse_doggo_response
 )
 
 _get_ip_ipinfo() (
-  wget -O- -q https://ipinfo.io/ip
+  wget -O- -q https://ipinfo.io/json | jq -re '.ip'
 )
 
 _get_configmap_ip() (
