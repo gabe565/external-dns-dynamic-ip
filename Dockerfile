@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.9
+#syntax=docker/dockerfile:1.10
 
 FROM alpine:3.20.3
 
