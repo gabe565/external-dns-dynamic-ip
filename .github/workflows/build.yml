@@ -3,7 +3,7 @@ name: Build
 on: push
 
 env:
-  KUBERNETES_VERSION: v1.32.0
+  KUBERNETES_VERSION: v1.32.1
 
 jobs:
   build:
