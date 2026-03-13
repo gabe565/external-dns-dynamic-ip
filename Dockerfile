@@ -35,4 +35,4 @@ COPY --from=doggo /app/doggo /usr/local/bin/doggo
 USER $UID
 
 COPY entrypoint.sh /
-CMD /entrypoint.sh
+CMD ["/entrypoint.sh"]
