@@ -16,6 +16,15 @@
       ],
       "depNameTemplate": "kubernetes/kubernetes",
       "datasourceTemplate": "github-releases"
+    },
+    {
+      "fileMatch": ["Dockerfile", "^\\.github/workflows/"],
+      "matchStrings": [
+        " +DOGGO_VERSION: +(?<currentValue>.+)",
+        "ARG +DOGGO_VERSION=\"(?<currentValue>.+)\""
+      ],
+      "depNameTemplate": "mr-karan/doggo",
+      "datasourceTemplate": "github-releases"
     }
   ]
 }
