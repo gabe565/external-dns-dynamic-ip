@@ -1,5 +1,8 @@
 #syntax=docker/dockerfile:1
 
+ARG KUBERNETES_VERSION="v1.35.2"
+
+FROM registry.k8s.io/kubectl:$KUBERNETES_VERSION AS kubectl
 FROM alpine:3.23.3 AS base
 
 FROM base AS doggo
@@ -18,23 +21,15 @@ FROM base
 ARG USERNAME=external-dns
 ARG UID=1000
 ARG GID=$UID
-ARG KUBERNETES_VERSION="v1.35.2"
 ARG TARGETARCH
 RUN <<EOT
   set -eux
-
   apk add --no-cache jq
-
-  wget -P /usr/local/bin "https://dl.k8s.io/release/$KUBERNETES_VERSION/bin/linux/$TARGETARCH/kubectl"
-  chmod +x /usr/local/bin/kubectl
-
-  printf '%s  /usr/local/bin/kubectl' "$(wget -O- "https://dl.k8s.io/$KUBERNETES_VERSION/bin/linux/$TARGETARCH/kubectl.sha256")" \
-    | sha256sum -c
-
   addgroup -g "$GID" "$USERNAME"
   adduser -S -u "$UID" -G "$USERNAME" "$USERNAME"
 EOT
 
+COPY --from=kubectl /bin/kubectl /usr/local/bin/kubectl
 COPY --from=doggo /app/doggo /usr/local/bin/doggo
 
 USER $UID
