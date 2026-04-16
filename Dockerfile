@@ -3,7 +3,7 @@
 ARG KUBERNETES_VERSION="v1.35.4"
 
 FROM registry.k8s.io/kubectl:$KUBERNETES_VERSION AS kubectl
-FROM alpine:3.23.3 AS base
+FROM alpine:3.23.4 AS base
 
 FROM base AS doggo
 WORKDIR /app
