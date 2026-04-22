@@ -1,6 +1,6 @@
 #syntax=docker/dockerfile:1
 
-ARG KUBERNETES_VERSION="v1.35.4"
+ARG KUBERNETES_VERSION="v1.36.0"
 
 FROM registry.k8s.io/kubectl:$KUBERNETES_VERSION AS kubectl
 FROM alpine:3.23.4 AS base
