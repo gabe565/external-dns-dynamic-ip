@@ -7,7 +7,7 @@ FROM alpine:3.23.4 AS base
 
 FROM base AS doggo
 WORKDIR /app
-ARG DOGGO_VERSION="v1.1.5"
+ARG DOGGO_VERSION="v1.1.6"
 ARG TARGETARCH
 RUN <<EOT
   set -eux
